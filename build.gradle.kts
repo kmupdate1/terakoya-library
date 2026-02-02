@@ -3,6 +3,7 @@ import java.net.NetworkInterface
 plugins {
     `maven-publish`
     alias { libs.plugins.kotlin.multiplatform }
+    alias { libs.plugins.org.sonarqube }
 }
 
 group = "jp.terakoyalabo"
@@ -65,5 +66,18 @@ publishing {
                 password = project.findProperty("nexus.password")?.toString()
             }
         }
+    }
+}
+
+sonar {
+    properties {
+        property("sonar.projectKey", "kmupdate1")
+        property("sonar.organization", "terakoyalabo")
+        property("sonar.host.url", "https://sonarcloud.io")
+
+        // 鑑定士に「ここが理の源泉だ」と教える
+        property("sonar.sources", "src/commonMain/kotlin")
+        // もしテストも鑑定（カバレッジ等）したい場合は、ここも
+        property("sonar.tests", "src/commonTest/kotlin")
     }
 }
