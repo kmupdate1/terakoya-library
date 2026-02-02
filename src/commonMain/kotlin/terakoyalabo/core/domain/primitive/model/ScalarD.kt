@@ -24,13 +24,13 @@ value class ScalarD private constructor(val value: Double) : Comparable<ScalarD>
         val MICRO: ScalarD = ONE / MEGA     // 10^-6
         val NANO: ScalarD  = ONE / GIGA     // 10^-9
         val SEXA: ScalarD = ScalarD(value = 6.0) * DECA     // 60 times
-        val NEGATIVE: ScalarD = ScalarD(value = -1.0)
+        val NEGATIVE_ONE: ScalarD = ScalarD(value = -1.0)
 
         @Throws(InvalidValidationException::class)
         fun of(raw: Double): ScalarD {
             val validRaw = raw
-                .validate(condition = { it.isNaN() }, lazyMessage = { "No definition (NaN)." })
-                .validate(condition = { it.isInfinite() }, lazyMessage = { "No infinite definition (Infinite)." })
+                .validate(requirement = { it.isNaN() }, lazyMessage = { "No definition (NaN)." })
+                .validate(requirement = { it.isInfinite() }, lazyMessage = { "No infinite definition (Infinite)." })
 
             return ScalarD(value = validRaw)
         }

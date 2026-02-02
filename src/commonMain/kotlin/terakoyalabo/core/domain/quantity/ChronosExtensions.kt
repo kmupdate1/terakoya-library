@@ -2,7 +2,7 @@ package terakoyalabo.core.domain.quantity
 
 import terakoyalabo.core.domain.quantity.model.ChronosMs
 import terakoyalabo.core.domain.primitive.model.ScalarD
-import terakoyalabo.core.domain.primitive.sVal
+import terakoyalabo.core.domain.logic.sVal
 
 // ミリ秒：最小単位そのまま
 val Int.ms: ChronosMs get() = ChronosMs.of(this.sVal)

@@ -1,7 +1,7 @@
 package terakoyalabo.core.domain.quantity.model
 
-import terakoyalabo.core.domain.primitive.asLower
-import terakoyalabo.core.domain.primitive.checker
+import terakoyalabo.core.domain.logic.asLowerLimit
+import terakoyalabo.core.domain.logic.inclusiveDiscipline
 import terakoyalabo.core.domain.primitive.model.ScalarD
 import terakoyalabo.core.error.InvalidValidationException
 import terakoyalabo.core.error.LawOfTerakoyaException
@@ -11,13 +11,13 @@ import kotlin.jvm.JvmInline
 @JvmInline
 value class DistanceMm private constructor(val mm: ScalarD) {
     companion object {
-        val ZERO = DistanceMm(mm = ScalarD.Companion.ZERO)
+        val ZERO = DistanceMm(mm = ScalarD.ZERO)
 
         @Throws(InvalidValidationException::class, LawOfTerakoyaException::class)
         fun of(rawMm: ScalarD): DistanceMm {
             val validMm = rawMm.validate(
-                condition = ScalarD.Companion.ZERO.asLower.checker,
-                lazyMessage = { "Distance magnitude must be positive: $it." },
+                requirement = ScalarD.ZERO.asLowerLimit.inclusiveDiscipline,
+                lazyMessage = { "Distance magnitude must be a non-negative: $it." },
             )
 
             return DistanceMm(mm = validMm)
@@ -25,9 +25,9 @@ value class DistanceMm private constructor(val mm: ScalarD) {
     }
 
     // --- 具象への視点（単位変換） ---
-    val cm: ScalarD get() = this.mm / ScalarD.Companion.DECA
-    val m: ScalarD get() = this.cm / ScalarD.Companion.HECTO
-    val km: ScalarD get() = this.m / ScalarD.Companion.KILO
+    val cm: ScalarD get() = this.mm / ScalarD.DECA
+    val m: ScalarD get() = this.cm / ScalarD.HECTO
+    val km: ScalarD get() = this.m / ScalarD.KILO
 
     // --- 空間の代謝（演算） ---
     @Throws(InvalidValidationException::class)

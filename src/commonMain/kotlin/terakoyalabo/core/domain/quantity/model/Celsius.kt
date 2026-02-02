@@ -1,10 +1,14 @@
 package terakoyalabo.core.domain.quantity.model
 
 import terakoyalabo.core.domain.logic.model.Delta
-import terakoyalabo.core.domain.primitive.asLower
-import terakoyalabo.core.domain.primitive.asTarget
-import terakoyalabo.core.domain.primitive.asUpper
-import terakoyalabo.core.domain.primitive.checker
+import terakoyalabo.core.domain.logic.asLowerLimit
+import terakoyalabo.core.domain.logic.asTarget
+import terakoyalabo.core.domain.logic.asTargetWithEpsilon
+import terakoyalabo.core.domain.logic.asUpperLimit
+import terakoyalabo.core.domain.logic.discipline
+import terakoyalabo.core.domain.logic.inclusiveDiscipline
+import terakoyalabo.core.domain.logic.inclusiveDisciplineBy
+import terakoyalabo.core.domain.logic.sVal
 import terakoyalabo.core.domain.primitive.model.ScalarD
 import terakoyalabo.core.error.InvalidValidationException
 import terakoyalabo.core.error.LawOfTerakoyaException
@@ -21,7 +25,7 @@ value class Celsius private constructor(val degree: ScalarD) {
         fun of(rawDegree: ScalarD): Celsius {
             // 絶対零度を下回ることは「理」が許さない
             val validDegree = rawDegree.validate(
-                condition = ABSOLUTE_ZERO.degree.asLower.checker,
+                requirement = ABSOLUTE_ZERO.degree.asLowerLimit.inclusiveDiscipline,
                 lazyMessage = { "Temperature below absolute zero is physically impossible: $it℃." },
             )
             return Celsius(degree = validDegree)
@@ -32,12 +36,12 @@ value class Celsius private constructor(val degree: ScalarD) {
     /**
      * @throws LawOfTerakoyaException
      */
-    val isFreezing: Boolean get() = ScalarD.ZERO.asLower.isIncludesAndViolatedBy(current = this.degree)
+    val isFreezing: Boolean get() = ScalarD.ZERO.asUpperLimit.inclusiveDisciplineBy(current = this.degree)
     /**
      * @throws LawOfTerakoyaException
      */
-    val isBoiling: Boolean get() = ScalarD.HECTO.asUpper.isIncludesAndViolatedBy(current = this.degree)
-    val isNormal: Boolean get() = ScalarD.of(raw = 25.0).asTarget.isReachedBy(current = this.degree)
+    val isBoiling: Boolean get() = ScalarD.HECTO.asLowerLimit.inclusiveDisciplineBy(current = this.degree)
+    val isNormal: Boolean get() = 25.0.sVal.asTargetWithEpsilon(epsilon = 5.0.sVal).isReachedBy(current = this.degree)
 
     fun toAbsoluteDegree(): ScalarD = (this.degree - ABSOLUTE_ZERO.degree).abs
 

@@ -1,7 +1,7 @@
 package terakoyalabo.core.domain.logic.model
 
-import terakoyalabo.core.domain.primitive.asLower
-import terakoyalabo.core.domain.primitive.checker
+import terakoyalabo.core.domain.logic.asLowerLimit
+import terakoyalabo.core.domain.logic.discipline
 import terakoyalabo.core.domain.primitive.model.ScalarD
 import terakoyalabo.core.error.InvalidValidationException
 import terakoyalabo.core.error.LawOfTerakoyaException
@@ -25,11 +25,11 @@ constructor(val magnitude: ScalarD, val direction: Signum) {
     init {
         magnitude
             .validate(
-                condition = ScalarD.ZERO.asLower.checker,
+                requirement = ScalarD.ZERO.asLowerLimit.discipline,
                 lazyMessage = { "Magnitude must be positive: $it." },
             )
             .validate(
-                condition = { it != ScalarD.ZERO && direction == Signum.NEUTRAL },
+                requirement = { it != ScalarD.ZERO && direction == Signum.NEUTRAL },
                 lazyMessage = {
                     "Logical conflict detected: Magnitude is $it but direction is NEUTRAL. " +
                             "A non-zero magnitude must have an active polarity (POSITIVE or NEGATIVE). " +

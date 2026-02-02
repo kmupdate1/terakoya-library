@@ -41,12 +41,12 @@ constructor(val limit: ScalarD, val forbiddenSignum: Signum, val epsilon: Scalar
 
     init {
         limit.validate(
-            condition = { it >= ScalarD.ZERO },
+            requirement = { it >= ScalarD.ZERO }, // 拡張使うと循環でオーバーフローの原因、使用しない。
             lazyMessage = { "Threshold limit must be non-negative: $it. Size cannot be negative." },
         )
 
         forbiddenSignum.validate(
-            condition = { it == Signum.NEUTRAL },
+            requirement = { it != Signum.NEUTRAL },
             lazyMessage = {
                 "Forbidden Signum cannot be NEUTRAL." +
                         " A threshold must block a specific direction (${Signum.POSITIVE} or ${Signum.NEGATIVE})."

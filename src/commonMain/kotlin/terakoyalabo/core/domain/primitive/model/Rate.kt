@@ -11,7 +11,7 @@ value class Rate
 constructor(val scalar: ScalarD) {
     init {
         scalar.validate(
-            condition = { it.isNegative },
+            requirement = { it.isNegative },
             lazyMessage = { "Rate cannot be negative." },
         )
     }

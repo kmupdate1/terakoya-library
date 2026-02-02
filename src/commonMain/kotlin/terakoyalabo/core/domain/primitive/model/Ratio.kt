@@ -1,6 +1,7 @@
 package terakoyalabo.core.domain.primitive.model
 
-import terakoyalabo.core.domain.primitive.asUpper
+import terakoyalabo.core.domain.logic.asUpperLimit
+import terakoyalabo.core.domain.logic.inclusiveDisciplineBy
 import terakoyalabo.core.error.InvalidValidationException
 import terakoyalabo.core.function.validate
 import kotlin.jvm.JvmInline
@@ -12,7 +13,7 @@ value class Ratio private constructor(val rate: Rate) {
         @Throws(InvalidValidationException::class)
         fun of(rate: Rate): Ratio {
             val validRate = rate.validate(
-                condition = { ScalarD.ONE.asUpper.isViolatedBy(current = it.scalar) },
+                requirement = { ScalarD.ONE.asUpperLimit.inclusiveDisciplineBy(current = it.scalar) },
                 lazyMessage = { "Ratio cannot exceed ${ScalarD.ONE}." }
             )
 
