@@ -1,38 +1,11 @@
-import java.net.NetworkInterface
-
 plugins {
     `maven-publish`
     alias { libs.plugins.kotlin.multiplatform }
     alias { libs.plugins.org.sonarqube }
 }
 
-group = "jp.terakoyalabo"
-version = "0.1.0-SNAPSHOT"
-
-val repoType = if (project.version.toString().endsWith("-SNAPSHOT")) "snapshots" else "releases"
-
-val isAtLabo = NetworkInterface.getNetworkInterfaces().asSequence().any { iface ->
-    iface.inetAddresses.asSequence().any { addr ->
-        addr.hostAddress.startsWith("192.168.11.")
-    }
-}
-val address = if (isAtLabo) rootProject.findProperty("nexus.ip.labonet")?.toString() ?: "192.168.11.6"
-else rootProject.findProperty("nexus.ip.vpn")?.toString() ?: "100.98.144.29"
-
-val domain = "http://$address:8081"
-val repoUri = uri("$domain/repository/terakoyalabo-library-$repoType")
-
 repositories {
     mavenCentral()
-    maven {
-        url = repoUri
-        isAllowInsecureProtocol = true
-
-        credentials {
-            username = rootProject.findProperty("nexus.username")?.toString()
-            password = rootProject.findProperty("nexus.password")?.toString()
-        }
-    }
 }
 
 kotlin {
@@ -63,24 +36,9 @@ kotlin {
     jvmToolchain(21)
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "TerakoyaNexus"
-            url = repoUri
-
-            isAllowInsecureProtocol = true
-            credentials {
-                username = project.findProperty("nexus.username")?.toString()
-                password = project.findProperty("nexus.password")?.toString()
-            }
-        }
-    }
-}
-
 sonar {
     properties {
-        property("sonar.projectKey", "kmupdate1")
+        property("sonar.projectKey", "kmupdate1_${project.name}")
         property("sonar.organization", "terakoyalabo")
         property("sonar.host.url", "https://sonarcloud.io")
 

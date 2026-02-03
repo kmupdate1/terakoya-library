@@ -1,15 +1,7 @@
-import java.net.NetworkInterface
-
 plugins {
     `maven-publish`
     alias { libs.plugins.kotlin.multiplatform }
     alias { libs.plugins.org.sonarqube }
-}
-
-val isAtLabo = NetworkInterface.getNetworkInterfaces().asSequence().any { iface ->
-    iface.inetAddresses.asSequence().any { addr ->
-        addr.hostAddress.startsWith("192.168.11.")
-    }
 }
 
 repositories {
@@ -46,29 +38,9 @@ kotlin {
     jvmToolchain(21)
 }
 
-publishing {
-    repositories {
-        maven {
-            val repoType = if (project.version.toString().endsWith("-SNAPSHOT")) "snapshots" else "releases"
-
-            val address = if (isAtLabo) rootProject.findProperty("nexus.ip.labonet")?.toString()
-            else rootProject.findProperty("nexus.ip.vpn")?.toString() ?: "100.98.144.29"
-
-            name = "TerakoyaNexus"
-            url = uri("http://$address:8081/repository/terakoyalabo-library-$repoType")
-
-            isAllowInsecureProtocol = true
-            credentials {
-                username = rootProject.findProperty("nexus.username")?.toString()
-                password = rootProject.findProperty("nexus.password")?.toString()
-            }
-        }
-    }
-}
-
 sonar {
     properties {
-        property("sonar.projectKey", "kmupdate1")
+        property("sonar.projectKey", "kmupdate1_${project.name}")
         property("sonar.organization", "terakoyalabo")
         property("sonar.host.url", "https://sonarcloud.io")
 

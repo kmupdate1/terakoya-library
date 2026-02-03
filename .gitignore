@@ -1,0 +1,19 @@
+# --- Gradle & JVM ---
+.gradle/
+build/
+*.class
+
+# --- IDE (macOS / IntelliJ) ---
+.idea/
+*.iml
+.DS_Store
+
+# --- Kotlin ---
+.kotlin/
+
+# --- 認証情報 (念のための二重防壁) ---
+# プロジェクト内の gradle.properties に ID/PW を書かない運用ですが、
+# 万が一の混入を防ぐための設定です。
+# ただし、通常の gradle.properties は共有したいので、
+# 秘密の情報を書く場合は local.properties などを使うのが一般的です。
+local.properties
