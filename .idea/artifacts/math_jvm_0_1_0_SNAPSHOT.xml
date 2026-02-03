@@ -1,8 +1,8 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="math-jvm-0.1.0-SNAPSHOT">
-    <output-path>$PROJECT_DIR$/build/libs</output-path>
+    <output-path>$PROJECT_DIR$/math/build/libs</output-path>
     <root id="archive" name="math-jvm-0.1.0-SNAPSHOT.jar">
-      <element id="module-output" name="math.jvmMain" />
+      <element id="module-output" name="terakoyalabo-library.math.jvmMain" />
     </root>
   </artifact>
 </component>

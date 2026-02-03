@@ -16,8 +16,8 @@ val isAtLabo = NetworkInterface.getNetworkInterfaces().asSequence().any { iface 
         addr.hostAddress.startsWith("192.168.11.")
     }
 }
-val address = if (isAtLabo) project.findProperty("nexus.ip.labonet")?.toString() ?: "192.168.11.6"
-else project.findProperty("nexus.ip.vpn")?.toString() ?: "100.98.144.29"
+val address = if (isAtLabo) rootProject.findProperty("nexus.ip.labonet")?.toString() ?: "192.168.11.6"
+else rootProject.findProperty("nexus.ip.vpn")?.toString() ?: "100.98.144.29"
 
 val domain = "http://$address:8081"
 val repoUri = uri("$domain/repository/terakoyalabo-library-$repoType")
@@ -29,8 +29,8 @@ repositories {
         isAllowInsecureProtocol = true
 
         credentials {
-            username = project.findProperty("nexus.username")?.toString()
-            password = project.findProperty("nexus.password")?.toString()
+            username = rootProject.findProperty("nexus.username")?.toString()
+            password = rootProject.findProperty("nexus.password")?.toString()
         }
     }
 }

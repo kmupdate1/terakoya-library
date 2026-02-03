@@ -6,9 +6,6 @@ plugins {
     alias { libs.plugins.org.sonarqube }
 }
 
-group = "jp.terakoyalabo"
-version = "0.1.0-SNAPSHOT"
-
 val isAtLabo = NetworkInterface.getNetworkInterfaces().asSequence().any { iface ->
     iface.inetAddresses.asSequence().any { addr ->
         addr.hostAddress.startsWith("192.168.11.")
@@ -54,16 +51,16 @@ publishing {
         maven {
             val repoType = if (project.version.toString().endsWith("-SNAPSHOT")) "snapshots" else "releases"
 
-            val address = if (isAtLabo) project.findProperty("nexus.ip.labonet")?.toString()
-            else project.findProperty("nexus.ip.vpn")?.toString() ?: "100.98.144.29"
+            val address = if (isAtLabo) rootProject.findProperty("nexus.ip.labonet")?.toString()
+            else rootProject.findProperty("nexus.ip.vpn")?.toString() ?: "100.98.144.29"
 
             name = "TerakoyaNexus"
             url = uri("http://$address:8081/repository/terakoyalabo-library-$repoType")
 
             isAllowInsecureProtocol = true
             credentials {
-                username = project.findProperty("nexus.username")?.toString()
-                password = project.findProperty("nexus.password")?.toString()
+                username = rootProject.findProperty("nexus.username")?.toString()
+                password = rootProject.findProperty("nexus.password")?.toString()
             }
         }
     }

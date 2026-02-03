@@ -5,7 +5,7 @@ plugins {
 }
 
 allprojects {
-    group = "terakoyalabo.library"
+    group = "jp.terakoyalabo"
     version = "0.1.0-SNAPSHOT"
 
     repositories {
