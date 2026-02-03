@@ -34,16 +34,6 @@ subprojects {
                 // (現状の core や math にある publishing ブロックをここに統合できます)
 
                 // 2. 「maven」という名前の成果物を自動生成
-                /*
-                create<MavenPublication>("maven") {
-                    // KMPなら 'kotlin'、JVMなら 'java' を自動で拾い上げる
-                    val component = project.components.findByName("kotlin")
-                        ?: project.components.findByName("java")
-                    from(component)
-
-                    artifactId = project.name // 州の名前 (core, math, money) をそのままIDに
-                }
-                */
                 withType<MavenPublication>().configureEach {
                     if (artifactId == project.name + "-kotlinMultiplatform") artifactId = project.name
                 }
