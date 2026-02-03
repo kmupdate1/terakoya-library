@@ -52,7 +52,7 @@ subprojects {
             // 3. 輸出先（Nexus）の判定と設定
             repositories {
                 maven {
-                    val repoType = if (isRelease) "release" else "snapshots"
+                    val repoType = if (isRelease) "releases" else "snapshots"
                     val address = if (isAtLabo) rootProject.findProperty("nexus.ip.labonet")?.toString()
                     else rootProject.findProperty("nexus.ip.vpn")?.toString() ?: "100.98.144.29"
 
