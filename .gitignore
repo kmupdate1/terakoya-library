@@ -13,6 +13,9 @@ build/
 *.iml
 .DS_Store
 
+# --- Kotlin ---
+.kotlin/
+
 # --- 認証情報 (念のための二重防壁) ---
 # プロジェクト内の gradle.properties に ID/PW を書かない運用ですが、
 # 万が一の混入を防ぐための設定です。
