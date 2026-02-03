@@ -34,6 +34,7 @@ value class ScalarD private constructor(val value: Double) : Scalable<ScalarD>, 
             return ScalarD(value = validRaw)
         }
     }
+
     /**
      * 最も近い整数へ丸めて Long に変換する。
      * 「個体数」や「円」などの不連続な具象へ変換する際の標準ルート。
