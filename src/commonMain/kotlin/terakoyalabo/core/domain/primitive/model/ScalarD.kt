@@ -8,7 +8,7 @@ import kotlin.math.pow
 import kotlin.math.roundToLong
 
 @JvmInline
-value class ScalarD private constructor(val value: Double) : Comparable<ScalarD> {
+value class ScalarD private constructor(val value: Double) : Scalable<ScalarD> {
     companion object {
         // 演算子の混入は今後検討
         val ZERO: ScalarD = ScalarD(value = 0.0)
@@ -37,22 +37,22 @@ value class ScalarD private constructor(val value: Double) : Comparable<ScalarD>
     }
 
     // --- 物理的実体への変換（責任範囲の追加） ---
-    val isPositive: Boolean get() = value > ZERO.value
-    val isNegative: Boolean get() = value < ZERO.value
-    val isZero: Boolean get() = value == ZERO.value
+    override val isPositive: Boolean get() = value > ZERO.value
+    override val isNegative: Boolean get() = value < ZERO.value
+    override val isZero: Boolean get() = value == ZERO.value
 
     /**
      * 絶対値
      * @throws InvalidValidationException 理の外の値（NaN/Inf）が生成される場合に送出
      */
-    val abs: ScalarD get() = of(raw = abs(x = this.value))
+    override val abs: ScalarD get() = of(raw = abs(x = this.value))
 
     /**
      * 符号反転
      * @throws InvalidValidationException 理の外の値（NaN/Inf）が生成される場合に送出
      */
     @Throws(InvalidValidationException::class)
-    fun invert(): ScalarD = of(raw = -this.value)
+    override fun invert(): ScalarD = of(raw = -this.value)
 
     /**
      * 最も近い整数へ丸めて Long に変換する。
@@ -120,12 +120,12 @@ value class ScalarD private constructor(val value: Double) : Comparable<ScalarD>
 
     // --- 代謝（演算） ---
     @Throws(InvalidValidationException::class)
-    operator fun plus(other: ScalarD): ScalarD = of(raw = this.value + other.value)
+    override operator fun plus(other: ScalarD): ScalarD = of(raw = this.value + other.value)
     @Throws(InvalidValidationException::class)
-    operator fun minus(other: ScalarD): ScalarD = of(raw = this.value - other.value)
+    override operator fun minus(other: ScalarD): ScalarD = of(raw = this.value - other.value)
     @Throws(InvalidValidationException::class)
-    operator fun times(other: ScalarD): ScalarD = of(raw = this.value * other.value)
+    override operator fun times(other: ScalarD): ScalarD = of(raw = this.value * other.value)
     @Throws(InvalidValidationException::class)
-    operator fun div(other: ScalarD): ScalarD = of(raw = this.value / other.value)
+    override operator fun div(other: ScalarD): ScalarD = of(raw = this.value / other.value)
     override operator fun compareTo(other: ScalarD): Int = this.value.compareTo(other.value)
 }

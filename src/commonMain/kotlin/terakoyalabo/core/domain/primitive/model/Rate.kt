@@ -8,11 +8,11 @@ import kotlin.jvm.JvmInline
 @JvmInline
 value class Rate
 @Throws(InvalidValidationException::class)
-constructor(val scalar: ScalarD) {
+constructor(override val scalar: ScalarD) : Rateable {
     init {
         scalar.validate(
-            requirement = { it.isNegative },
-            lazyMessage = { "Rate cannot be negative." },
+            requirement = { it.isZero or it.isPositive },
+            lazyMessage = { "Rate must be a non-negative number." },
         )
     }
 }

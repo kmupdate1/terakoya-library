@@ -1,7 +1,7 @@
 package terakoyalabo.core.domain.logic
 
 import terakoyalabo.core.domain.primitive.model.ScalarD
-import terakoyalabo.core.domain.logic.model.Signum
+import terakoyalabo.core.domain.primitive.model.Signum
 import terakoyalabo.core.domain.logic.model.TargetPoint
 import terakoyalabo.core.domain.logic.model.Threshold
 import terakoyalabo.core.error.LawOfTerakoyaException

@@ -1,6 +1,4 @@
-package terakoyalabo.core.domain.logic.model
-
-import terakoyalabo.core.domain.primitive.model.ScalarD
+package terakoyalabo.core.domain.primitive.model
 
 enum class Signum {
     POSITIVE, NEGATIVE, NEUTRAL;

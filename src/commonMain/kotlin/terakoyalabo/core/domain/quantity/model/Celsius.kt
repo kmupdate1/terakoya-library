@@ -1,14 +1,7 @@
 package terakoyalabo.core.domain.quantity.model
 
+import terakoyalabo.core.domain.logic.*
 import terakoyalabo.core.domain.logic.model.Delta
-import terakoyalabo.core.domain.logic.asLowerLimit
-import terakoyalabo.core.domain.logic.asTarget
-import terakoyalabo.core.domain.logic.asTargetWithEpsilon
-import terakoyalabo.core.domain.logic.asUpperLimit
-import terakoyalabo.core.domain.logic.discipline
-import terakoyalabo.core.domain.logic.inclusiveDiscipline
-import terakoyalabo.core.domain.logic.inclusiveDisciplineBy
-import terakoyalabo.core.domain.logic.sVal
 import terakoyalabo.core.domain.primitive.model.ScalarD
 import terakoyalabo.core.error.InvalidValidationException
 import terakoyalabo.core.error.LawOfTerakoyaException

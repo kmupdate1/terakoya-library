@@ -1,6 +1,7 @@
 package terakoyalabo.core.domain.logic.model
 
 import terakoyalabo.core.domain.primitive.model.ScalarD
+import terakoyalabo.core.domain.primitive.model.Signum
 import terakoyalabo.core.error.InvalidValidationException
 import terakoyalabo.core.error.LawOfTerakoyaException
 import terakoyalabo.core.function.validate

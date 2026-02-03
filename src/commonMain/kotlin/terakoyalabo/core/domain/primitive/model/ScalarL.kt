@@ -6,7 +6,7 @@ import kotlin.jvm.JvmInline
 import kotlin.math.abs
 
 @JvmInline
-value class ScalarL private constructor(val value: Long): Comparable<ScalarL> {
+value class ScalarL private constructor(val value: Long) : Scalable<ScalarL> {
     companion object {
         val ZERO: ScalarL = ScalarL(value = 0L)
         val ONE = ScalarL(value = 1L)
@@ -16,19 +16,19 @@ value class ScalarL private constructor(val value: Long): Comparable<ScalarL> {
         fun of(raw: Long): ScalarL = ScalarL(value = raw)
     }
 
-    val isPositive: Boolean get() = value > 0L
-    val isNegative: Boolean get() = value < 0L
-    val isZero: Boolean get() = value == 0L
+    override val isPositive: Boolean get() = value > 0L
+    override val isNegative: Boolean get() = value < 0L
+    override val isZero: Boolean get() = value == 0L
 
     /**
      * @throws InvalidValidationException
      */
-    val abs: ScalarL get() = if (value == Long.MIN_VALUE) {
+    override val abs: ScalarL get() = if (value == Long.MIN_VALUE) {
         throw LawOfTerakoyaException("Overflow in absolute value.")
     } else of(raw = abs(value))
 
     @Throws(InvalidValidationException::class)
-    fun invert(): ScalarL = if (value == Long.MIN_VALUE) {
+    override fun invert(): ScalarL = if (value == Long.MIN_VALUE) {
         throw LawOfTerakoyaException("Overflow in inversion: Long.MIN_VALUE cannot be inverted.")
     } else of(raw = -value)
 
@@ -55,7 +55,7 @@ value class ScalarL private constructor(val value: Long): Comparable<ScalarL> {
     override fun toString(): String = value.toString()
 
     @Throws(InvalidValidationException::class, LawOfTerakoyaException::class)
-    operator fun plus(other: ScalarL): ScalarL {
+    override operator fun plus(other: ScalarL): ScalarL {
         val res = this.value + other.value
         // 加算の理：正＋正＝負、または 負＋負＝正 になったらオーバーフロー
         if (((this.value xor res) and (other.value xor res)) < ZERO.value) {
@@ -64,7 +64,7 @@ value class ScalarL private constructor(val value: Long): Comparable<ScalarL> {
         return of(raw = res)
     }
     @Throws(InvalidValidationException::class, LawOfTerakoyaException::class)
-    operator fun minus(other: ScalarL): ScalarL {
+    override operator fun minus(other: ScalarL): ScalarL {
         val res = this.value - other.value
         // 減算の理：符号が異なるもの同士を引いて、結果の符号が引かれる数と異なればオーバーフロー
         if (((this.value xor other.value) and (this.value xor res)) < ZERO.value) {
@@ -73,7 +73,7 @@ value class ScalarL private constructor(val value: Long): Comparable<ScalarL> {
         return of(raw = res)
     }
     @Throws(InvalidValidationException::class, LawOfTerakoyaException::class)
-    operator fun times(other: ScalarL): ScalarL {
+    override operator fun times(other: ScalarL): ScalarL {
         if (other.value == ZERO.value) return ZERO
         val res = this.value * other.value
         // 乗算の理：結果を片方で割って元に戻らなければオーバーフロー
@@ -83,7 +83,7 @@ value class ScalarL private constructor(val value: Long): Comparable<ScalarL> {
         return of(raw = res)
     }
     @Throws(InvalidValidationException::class, LawOfTerakoyaException::class)
-    operator fun div(other: ScalarL): ScalarL {
+    override operator fun div(other: ScalarL): ScalarL {
         if (other.isZero) throw LawOfTerakoyaException("Division by zero.")
         // Long.MIN_VALUE / -1 だけはオーバーフローする唯一の除算
         if (this.value == Long.MIN_VALUE && other.value == NEGATIVE.value) {
