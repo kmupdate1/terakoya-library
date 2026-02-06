@@ -14,15 +14,10 @@ subprojects {
                 maven {
                     // ルートプロジェクトで定義した変数を参照
                     val isRelease = rootProject.extra["isRelease"] as Boolean
-                    val isAtLabo = rootProject.extra["isAtLabo"] as Boolean
-
                     val repoType = if (isRelease) "releases" else "snapshots"
+                    val domain = System.getenv("TERAKOYALABO_DOMAIN")
 
-                    val address = if (isAtLabo) rootProject.findProperty("nexus.ip.labonet")?.toString() ?: "192.168.11.6"
-                    else rootProject.findProperty("nexus.ip.vpn")?.toString() ?: "100.98.144.29"
-
-                    url = uri("http://$address:8081/repository/terakoyalabo-library-$repoType")
-                    isAllowInsecureProtocol = true
+                    url = uri("$domain/repository/terakoyalabo-library-$repoType")
 
                     credentials {
                         username = System.getenv("NEXUS_USERNAME")
