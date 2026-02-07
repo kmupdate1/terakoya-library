@@ -1,6 +1,6 @@
 package terakoyalabo.core.error
 
-abstract class CoreDomainException(
+abstract class TerakoyaException(
     override val message: String,
     override val cause: Throwable?,
 ) : RuntimeException(message, cause)
