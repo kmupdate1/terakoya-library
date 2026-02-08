@@ -4,25 +4,25 @@ import io.ktor.server.application.*
 import terakoyalabo.core.domain.identity.model.HeartBeat
 import terakoyalabo.core.domain.identity.model.Identity
 import terakoyalabo.core.domain.logic.sl
-import terakoyalabo.lifecycle.node.CurrentStatus
+import terakoyalabo.lifecycle.node.NodeStatus
 import terakoyalabo.lifecycle.node.ServiceNode
 import terakoyalabo.lifecycle.node.StatusPublishable
 
 abstract class KtorHttpNode : ServiceNode {
-    private var current: CurrentStatus = CurrentStatus()
+    private var node: NodeStatus = NodeStatus()
 
     fun bind(application: Application) {
         application.monitor.apply {
             subscribe(ApplicationStarting) {
                 verify().onSuccess {
-                    current = current.copy(
+                    node = node.copy(
                         statusId = Identity.gen(),
                         status = StatusPublishable.NodeStatus.ALIVE,
                         timestamp = HeartBeat.now(),
                         message = "Application launched successfully",
                     )
                 }.onFailure {
-                    current = current.copy(
+                    node = node.copy(
                         statusId = Identity.gen(),
                         status = StatusPublishable.NodeStatus.DEAD,
                         timestamp = HeartBeat.now(),
@@ -32,7 +32,7 @@ abstract class KtorHttpNode : ServiceNode {
             }
             subscribe(ApplicationStopping) {
                 onRetire(10_000.sl).onSuccess {
-                    current = current.copy(
+                    node = node.copy(
                         statusId = Identity.gen(),
                         status = StatusPublishable.NodeStatus.RETIRING,
                         timestamp = HeartBeat.now(),
@@ -42,7 +42,7 @@ abstract class KtorHttpNode : ServiceNode {
             }
             subscribe(ApplicationStopped) {
                 release().onSuccess {
-                    current = current.copy(
+                    node = node.copy(
                         statusId = Identity.gen(),
                         status = StatusPublishable.NodeStatus.DEAD,
                         timestamp = HeartBeat.now(),
@@ -53,5 +53,5 @@ abstract class KtorHttpNode : ServiceNode {
         }
     }
 
-    override fun publish(): StatusPublishable.NodeStatus = current.status
+    override fun publish(): StatusPublishable.NodeStatus = node.status
 }

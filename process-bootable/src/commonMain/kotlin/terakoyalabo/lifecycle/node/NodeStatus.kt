@@ -4,7 +4,7 @@ import terakoyalabo.core.domain.identity.model.HeartBeat
 import terakoyalabo.core.domain.identity.model.Identity
 import terakoyalabo.lifecycle.node.StatusPublishable.NodeStatus
 
-data class CurrentStatus(
+data class NodeStatus(
     val nodeId: Identity = Identity.gen(),
     val statusId: Identity = Identity.gen(),
     val status: NodeStatus = NodeStatus.STARTING,
