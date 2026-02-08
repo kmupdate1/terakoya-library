@@ -26,6 +26,7 @@ kotlin {
 
         }
         jvmMain.dependencies {
+            implementation(libs.ktor.server.core)
         }
         jvmTest.dependencies {
 

@@ -4,6 +4,7 @@ import terakoyalabo.core.domain.primitive.model.ScalarD
 import terakoyalabo.core.domain.primitive.model.Signum
 import terakoyalabo.core.domain.logic.model.TargetPoint
 import terakoyalabo.core.domain.logic.model.Threshold
+import terakoyalabo.core.domain.primitive.model.ScalarL
 import terakoyalabo.core.error.LawOfTerakoyaException
 
 /**
@@ -30,6 +31,10 @@ val ScalarD.asLowerLimit: Threshold get() = Threshold.lower(limit = this)
 val ScalarD.asTarget: TargetPoint get() = TargetPoint(at = this)
 fun ScalarD.asTargetWithEpsilon(epsilon: ScalarD): TargetPoint = TargetPoint(at = this, epsilon = epsilon)
 
+// --- ScalarL への誘い（理学的な量の抽出） ---
+val Int.sl: ScalarL get() = ScalarL.of(raw = this.toLong())
+val Long.sl: ScalarL get() = ScalarL.of(raw = this)
+
 // --- ScalarD への誘い（理学的な量の抽出） ---
-val Int.sVal: ScalarD get() = ScalarD.of(raw = this.toDouble())
-val Double.sVal: ScalarD get() = ScalarD.of(raw = this)
+val Int.sd: ScalarD get() = ScalarD.of(raw = this.toDouble())
+val Double.sd: ScalarD get() = ScalarD.of(raw = this)

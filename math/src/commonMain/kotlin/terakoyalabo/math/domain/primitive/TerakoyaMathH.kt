@@ -1,6 +1,5 @@
 package terakoyalabo.math.domain.primitive
 
-import terakoyalabo.core.domain.logic.sVal
 import terakoyalabo.core.domain.primitive.model.Calculatable
 import terakoyalabo.core.domain.primitive.model.Scalable
 import terakoyalabo.core.domain.primitive.model.ScalarD

@@ -34,7 +34,7 @@ value class Celsius private constructor(val degree: ScalarD) {
      * @throws LawOfTerakoyaException
      */
     val isBoiling: Boolean get() = ScalarD.HECTO.asLowerLimit.inclusiveDisciplineBy(current = this.degree)
-    val isNormal: Boolean get() = 25.0.sVal.asTargetWithEpsilon(epsilon = 5.0.sVal).isReachedBy(current = this.degree)
+    val isNormal: Boolean get() = 25.0.sd.asTargetWithEpsilon(epsilon = 5.0.sd).isReachedBy(current = this.degree)
 
     fun toAbsoluteDegree(): ScalarD = (this.degree - ABSOLUTE_ZERO.degree).abs
 
