@@ -1,4 +1,4 @@
-package terakoyalabo.lifecycle.domain
+package terakoyalabo.lifecycle.node
 
 import terakoyalabo.core.domain.primitive.model.ScalarL
 

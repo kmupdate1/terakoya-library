@@ -1,4 +1,4 @@
-package terakoyalabo.lifecycle.domain
+package terakoyalabo.lifecycle.node
 
 interface Retryable {
     fun onConnectionLost()

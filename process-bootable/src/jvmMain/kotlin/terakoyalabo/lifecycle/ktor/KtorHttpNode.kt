@@ -4,9 +4,9 @@ import io.ktor.server.application.*
 import terakoyalabo.core.domain.identity.model.HeartBeat
 import terakoyalabo.core.domain.identity.model.Identity
 import terakoyalabo.core.domain.logic.sl
-import terakoyalabo.lifecycle.domain.CurrentStatus
-import terakoyalabo.lifecycle.domain.ServiceNode
-import terakoyalabo.lifecycle.domain.StatusPublishable
+import terakoyalabo.lifecycle.node.CurrentStatus
+import terakoyalabo.lifecycle.node.ServiceNode
+import terakoyalabo.lifecycle.node.StatusPublishable
 
 abstract class KtorHttpNode : ServiceNode {
     private var current: CurrentStatus = CurrentStatus()
