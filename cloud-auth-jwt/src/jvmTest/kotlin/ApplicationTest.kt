@@ -1,8 +1,7 @@
-import terakoyalabo.authjwt.test.TerakoyaSettings
-import terakoyalabo.authjwt.test.createNode
-import kotlin.system.exitProcess
+import terakoyalabo.core.domain.primitive.model.ScalarL
+import terakoyalabo.lifecycle.ktor.KtorHttpNode
 
-class ApplicationTest {
+class ApplicationTest : KtorHttpNode() {
     /*
     private val node by lazy {
         createNode { TerakoyaSettings() }.also { it.boot() }
@@ -15,4 +14,16 @@ class ApplicationTest {
         )
     }
      */
+    override fun verifyResources(): Result<Unit> {
+        println("ここでリソースの状態をチェック")
+        TODO("Not yet implemented")
+    }
+
+    override fun onRetire(timeoutMillis: ScalarL): Result<Unit> {
+        TODO("Not yet implemented")
+    }
+
+    override fun releaseResources(): Result<Unit> {
+        TODO("Not yet implemented")
+    }
 }

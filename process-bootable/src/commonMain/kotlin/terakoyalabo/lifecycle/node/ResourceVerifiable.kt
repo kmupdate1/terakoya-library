@@ -1,5 +1,5 @@
 package terakoyalabo.lifecycle.node
 
 interface ResourceVerifiable {
-    fun verify(): Result<Unit>
+    fun verifyResources(): Result<Unit>
 }
