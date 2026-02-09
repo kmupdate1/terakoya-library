@@ -14,7 +14,7 @@ abstract class KtorHttpNode : ServiceNode {
     fun bind(application: Application) {
         application.monitor.apply {
             subscribe(ApplicationStarting) {
-                verifyResources().onSuccess {
+                onVerify().onSuccess {
                     node = node.copy(
                         statusId = Identity.gen(),
                         status = StatusPublishable.NodeStatus.ALIVE,
@@ -41,7 +41,7 @@ abstract class KtorHttpNode : ServiceNode {
                 }
             }
             subscribe(ApplicationStopped) {
-                releaseResources().onSuccess {
+                onRelease().onSuccess {
                     node = node.copy(
                         statusId = Identity.gen(),
                         status = StatusPublishable.NodeStatus.DEAD,

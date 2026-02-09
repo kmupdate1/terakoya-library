@@ -1,5 +1,5 @@
 package terakoyalabo.lifecycle.node
 
 interface ResourceReleasable {
-    fun releaseResources(): Result<Unit>
+    fun onRelease(): Result<Unit>
 }

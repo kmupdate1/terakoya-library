@@ -14,16 +14,18 @@ class ApplicationTest : KtorHttpNode() {
         )
     }
      */
-    override fun verifyResources(): Result<Unit> {
-        println("ここでリソースの状態をチェック")
+    override fun onVerify(): Result<Unit> {
+        println("ここでリソースの状態をチェック開始")
         TODO("Not yet implemented")
     }
 
     override fun onRetire(timeoutMillis: ScalarL): Result<Unit> {
+        println("ここでリソース解放の準備開始")
         TODO("Not yet implemented")
     }
 
-    override fun releaseResources(): Result<Unit> {
+    override fun onRelease(): Result<Unit> {
+        println("ここでリソース解放")
         TODO("Not yet implemented")
     }
 }
