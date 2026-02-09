@@ -1,5 +1,6 @@
 package terakoyalabo.math.domain.primitive
 
+import terakoyalabo.core.domain.logic.sd
 import terakoyalabo.core.domain.primitive.model.Calculatable
 import terakoyalabo.core.domain.primitive.model.Scalable
 import terakoyalabo.core.domain.primitive.model.ScalarD
@@ -44,8 +45,8 @@ fun ScalarD.power(exponent: ScalarD): ScalarD {
 }
 
 // math モジュールにて、こんなふうに「知恵」を並べられます
-fun ScalarD.sqrt(): ScalarD = this.power(exponent = 0.5.sVal)
-fun ScalarD.cbrt(): ScalarD = this.power(exponent = 1.0.sVal / 3.0.sVal)
+fun ScalarD.sqrt(): ScalarD = this.power(exponent = 0.5.sd)
+fun ScalarD.cbrt(): ScalarD = this.power(exponent = 1.0.sd / 3.0.sd)
 
 /**
  * 指定された精度で丸めた新しい Scalar を返す。

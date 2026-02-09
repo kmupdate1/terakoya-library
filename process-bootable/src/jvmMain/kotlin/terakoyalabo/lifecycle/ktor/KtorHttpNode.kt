@@ -6,7 +6,7 @@ import terakoyalabo.core.domain.identity.model.Identity
 import terakoyalabo.core.domain.logic.sl
 import terakoyalabo.lifecycle.node.Node
 import terakoyalabo.lifecycle.node.ServiceNode
-import terakoyalabo.lifecycle.node.StatusPublishable
+import terakoyalabo.lifecycle.core.StatusPublishable
 
 abstract class KtorHttpNode : ServiceNode {
     private var node: Node = Node()

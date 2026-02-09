@@ -1,4 +1,4 @@
-package terakoyalabo.lifecycle.node
+package terakoyalabo.lifecycle.core
 
 interface StatusPublishable {
     fun publish(): NodeStatus

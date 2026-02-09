@@ -2,7 +2,7 @@ package terakoyalabo.lifecycle.node
 
 import terakoyalabo.core.domain.identity.model.HeartBeat
 import terakoyalabo.core.domain.identity.model.Identity
-import terakoyalabo.lifecycle.node.StatusPublishable.NodeStatus
+import terakoyalabo.lifecycle.core.StatusPublishable.NodeStatus
 
 data class Node(
     val nodeId: Identity = Identity.gen(),
