@@ -7,4 +7,4 @@ include(":money")
 include(":cloud-auth")
 include(":cloud-auth-jwt")
 
-include(":process-bootable")
+include(":foundation")

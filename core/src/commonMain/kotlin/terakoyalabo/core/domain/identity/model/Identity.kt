@@ -1,5 +1,6 @@
 package terakoyalabo.core.domain.identity.model
 
+import terakoyalabo.core.domain.identity.platformHash
 import terakoyalabo.core.error.InvalidValidationException
 import terakoyalabo.core.function.validate
 import kotlin.jvm.JvmInline
@@ -22,7 +23,19 @@ private constructor(val id: Uuid) {
         }
 
         @OptIn(ExperimentalUuidApi::class)
-        fun gen(): Identity = Identity(Uuid.random())
+        fun genV4(): Identity = Identity(Uuid.random())
+
+        /**
+         * 【静的】UUID v3/v5 相当 (名前ベース)
+         * 文字列から決定論的に生成される。同じ名前からは常に同じIDが生まれる。
+         * 例：FeatureのID、特定の永続的なリソース、ハードウェア固有ID
+         */
+        @OptIn(ExperimentalUuidApi::class)
+        fun genV5(name: String): Identity {
+            // 文字列をバイト列に変換し、プラットフォームごとのハッシュ関数で16バイトに落とし込む
+            val hash = platformHash(name)
+            return Identity(Uuid.fromByteArray(hash))
+        }
     }
 
     /**

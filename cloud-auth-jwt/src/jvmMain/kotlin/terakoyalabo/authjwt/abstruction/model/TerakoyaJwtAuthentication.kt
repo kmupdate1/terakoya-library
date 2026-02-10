@@ -16,7 +16,7 @@ class TerakoyaJwtAuthentication : TerakoyaJwtAuthenticator<JWTCredential, Terako
 
         return try {
             TerakoyaJwtPrincipal(
-                identity = Identity.gen(),
+                identity = Identity.genV4(),
                 affiliation = Affiliation.valueOf(value = role),
                 heartBeat = HeartBeat.now(),
             )
