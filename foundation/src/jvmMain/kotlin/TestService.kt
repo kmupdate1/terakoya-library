@@ -1,11 +1,9 @@
 import terakoyalabo.foundation.ktor.KernelConfiguration
 import terakoyalabo.foundation.ktor.KtorEmbApplicationKernel
-import kotlin.test.Test
 
 class TestService : KtorEmbApplicationKernel(
     configuration = KernelConfiguration()
 ) {
-    @Test // ここ！関数（メソッド）に授ける
     fun launch() {
         // 1. 具象化したサービスを生成
         val service = object : KtorEmbApplicationKernel(
@@ -14,15 +12,21 @@ class TestService : KtorEmbApplicationKernel(
             // 必要に応じてライフサイクルメソッドを調整
         }
 
-        Builder(kernel = service)
+        val kernel = Builder(kernel = service)
             .applyApp(endurable = TestApplicationAuthJwt())
             .applyRoute(endurable = TestRouteContentNegotiation())
             .build()
-            .run()
 
-        println("サーバーは現在、8080ポートで生存しています。Ctrl+Cで停止してください。")
+        kernel.run()
+            .onSuccess { println("サーバは現在、8080ポートで生存しています。Ctrl+Cで停止してください。") }
+            .onFailure { println("サーバの起動に失敗しました。[${it.message}]") }
+
 
         // テストプロセスが死なないように、スレッドを眠らせ続ける
-        Thread.currentThread().join()
+        // Thread.currentThread().join()
     }
+}
+
+fun main() {
+    TestService().launch()
 }

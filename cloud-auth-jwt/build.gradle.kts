@@ -39,6 +39,4 @@ kotlin {
             implementation(project(":foundation"))
         }
     }
-
-    jvmToolchain(21)
 }

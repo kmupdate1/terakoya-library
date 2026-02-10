@@ -8,10 +8,10 @@ import terakoyalabo.foundation.kernel.StatusPublishable
 import terakoyalabo.foundation.kernel.Kernel
 import terakoyalabo.foundation.kernel.ServiceKernel
 
-abstract class KtorHttpKernelLifecycle : ServiceKernel {
+abstract class KtorEmbHttpKernelLifecycle : ServiceKernel {
     fun bind(application: Application) {
         application.monitor.apply {
-            subscribe(ApplicationStarting) {
+            subscribe(ApplicationModulesLoaded) {
                 onEndue().onSuccess {
                     kernel = kernel.copy(
                         statusId = Identity.genV4(),
@@ -29,7 +29,6 @@ abstract class KtorHttpKernelLifecycle : ServiceKernel {
 
                     throw it
                 }
-
                 onVerify().onSuccess {
                     kernel = kernel.copy(
                         statusId = Identity.genV4(),
@@ -47,12 +46,15 @@ abstract class KtorHttpKernelLifecycle : ServiceKernel {
 
                     throw it
                 }
-
+            }
+            subscribe(ApplicationStarted) {
                 onLaunch().onSuccess {
-
                 }.onFailure {
                     throw it
                 }
+            }
+            subscribe(ApplicationStopPreparing) {
+
             }
             subscribe(ApplicationStopping) {
                 onRetire(10_000.sl).onSuccess {

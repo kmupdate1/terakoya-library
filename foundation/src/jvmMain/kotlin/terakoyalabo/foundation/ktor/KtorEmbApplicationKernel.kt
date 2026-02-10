@@ -11,56 +11,61 @@ import terakoyalabo.foundation.feature.Endurable
 import java.util.concurrent.TimeUnit
 import kotlin.system.exitProcess
 
-abstract class KtorApplicationKernel(
+abstract class KtorEmbApplicationKernel(
     private val configuration: KernelConfiguration,
-) : KtorHttpKernelLifecycle() {
+) : KtorEmbHttpKernelLifecycle() {
     override fun onEndue(): Result<Unit> = runCatching {
-        println("[1] 機能が登録されました")
-        applicationEndurables.forEach { endurable -> endurable.endue(context = server.application) }
-        server.application.routing {
-            routeEndurables.forEach { endurable -> endurable.endue(context = this) }
-        }
+        println("[1] 機能登録は完了しているため、ここでは実行しません。")
     }
 
     override fun onVerify(): Result<Unit> = runCatching {
-        println("[2] ヘルスチェックが終了しました")
+        println("[2] ヘルスチェックが終了しました。")
     }
 
     override fun onLaunch(): Result<Unit> = runCatching {
-        println("[3] アプリケーションが起動されました")
-        // server.start(wait = true)
+        println("[3] アプリケーションが起動されました。")
     }
 
     override fun onRetire(timeoutMillis: ScalarL): Result<Unit> = runCatching {
-        println("[4] アプリケーションが稼働を終了しました")
-        server.stop(1000L, 1000L, TimeUnit.MILLISECONDS)
+        println("[4] アプリケーションが稼働を終了しました。")
     }
 
     override fun onRelease(): Result<Unit> = runCatching {
         println("[5] アプリケーションがリソースを返却しました。")
-        exitProcess(0)
+        server?.stop(gracePeriodMillis = 1_000L, timeoutMillis = 1_000L)
+    // .stop(shutdownGracePeriod = 1_000L, shutdownTimeout = 1_000L, TimeUnit.MILLISECONDS)
     }
 
     fun run(): Result<Unit> = runCatching {
-        bind(application = server.application)
-        server.start(wait = true)
-    }
+        server = embeddedServer(
+            factory = when (configuration.soil) {
+                NodeSoil.STABLE -> Netty
+                NodeSoil.NATIVE -> CIO
+            },
+            port = configuration.port,
+            host = configuration.host,
+            /*
+            configure = {
+                workerGroupSize = 4
+                connectionGroupSize = 2
+                shutdownTimeout = 1_000L
+                shutdownGracePeriod = 1_000L
+            },
+            */
+            module = {
+                this@KtorEmbApplicationKernel.bind(this)
 
-    private val server: EmbeddedServer<*, *> = embeddedServer(
-        factory = when (configuration.soil) {
-            NodeSoil.STABLE -> Netty
-            NodeSoil.NATIVE -> CIO
-        },
-        environment = applicationEnvironment {
-            config = MapApplicationConfig(
-                "ktor.deployment.port" to configuration.port.toString(),
-                "ktor.deployment.host" to configuration.host,
-            )
-        },
-    )
+                applicationEndurables.forEach { endurable -> endurable.endue(context = this) }
+                routing {
+                    routeEndurables.forEach { endurable -> endurable.endue(context = this) }
+                }
+            },
+        ).start(wait = true)
+    }
 
     private val applicationEndurables = mutableListOf<Endurable<Application, Any>>()
     private val routeEndurables = mutableListOf<Endurable<Route, Any>>()
+    private var server: EmbeddedServer<*, *>? = null
 
     /**
      * Endurable（機能）を Pipeline へと「登録」する。
@@ -70,7 +75,7 @@ abstract class KtorApplicationKernel(
      * * 理学的な依存関係（例：認証の後にルーティング）がある場合は、
      * その順序を守って apply すること。
      */
-    class Builder(private val kernel: KtorApplicationKernel) {
+    class Builder(private val kernel: KtorEmbApplicationKernel) {
         private val applicationEndurables = mutableListOf<Endurable<Application, Any>>()
         private val routeEndurables = mutableListOf<Endurable<Route, Any>>()
 
@@ -84,7 +89,7 @@ abstract class KtorApplicationKernel(
             return this
         }
 
-        fun build(): KtorApplicationKernel = kernel.also {
+        fun build(): KtorEmbApplicationKernel = kernel.also {
             it.applicationEndurables.addAll(applicationEndurables)
             it.routeEndurables.addAll(routeEndurables)
         }

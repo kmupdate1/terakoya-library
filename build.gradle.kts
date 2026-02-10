@@ -19,4 +19,13 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
+    // --- ここから追加：JVM バージョンの統制 ---
+    // Kotlin Multiplatform プラグインが適用されているプロジェクトに対して
+    // JVM ツールチェーンを一括で Java 21 に強制する
+    plugins.withId("org.jetbrains.kotlin.multiplatform") {
+        configure<org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension> {
+            jvmToolchain(21) // これで魂（Compile）と肉体（Runtime）が 21 に揃う
+        }
+    }
 }

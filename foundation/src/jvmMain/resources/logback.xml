@@ -1,0 +1,18 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="io.ktor" level="TRACE" />
+
+    <logger name="io.netty" level="DEBUG" />
+    <logger name="io.ktor.server.cio" level="TRACE" />
+
+    <logger name="io.ktor.server.routing" level="TRACE" />
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
